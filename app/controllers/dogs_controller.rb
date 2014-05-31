@@ -2,6 +2,9 @@ class DogsController < ApplicationController
   respond_to :json
 
   def index
+    unless params[:pet_id]
+      render_400 and return
+    end
     tries ||= 10
     begin
       pet = petfinder.pet(params[:pet_id])

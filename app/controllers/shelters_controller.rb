@@ -2,6 +2,9 @@ class SheltersController < ApplicationController
   respond_to :json
 
   def index
+    unless params[:shelter_id]
+      render_400 and return
+    end
     tries ||= 10
     begin
       shelter = petfinder.shelter(params[:shelter_id])
