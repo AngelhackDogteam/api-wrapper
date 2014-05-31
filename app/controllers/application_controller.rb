@@ -6,4 +6,8 @@ class ApplicationController < ActionController::Base
   def petfinder
     @petfinder || Petfinder::Client.new
   end
+
+  def render_400
+    render :nothing => true, :status => 400
+  end
 end
