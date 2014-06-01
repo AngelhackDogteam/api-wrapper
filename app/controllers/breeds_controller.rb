@@ -32,7 +32,6 @@ class BreedsController < ApplicationController
     end
     fixed_ip = params[:ip].gsub('-', '.')
     ip = Rails.env.development? ? "38.108.97.34" : fixed_ip
-
     geocoded_location = IpGeocoder.geocode(ip)
     location = geocoded_location.zip.present? ? 
       geocoded_location.zip : "#{geocoded_location.city},#{geocoded_location.state}"
