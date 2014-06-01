@@ -2,7 +2,7 @@ class RecommendationsController < ApplicationController
   respond_to :json
 
   def filter
-    options = params.keep_if {|k, v| %w(question1 question2 question3 question4 question5 question6 question7).include? k}
+    options = params.keep_if {|k, v| %w(question-1 question-2 question-3 question-4 question-5 question-6 question-7).include? k}
 
     size = options[:question1]
     agility = options[:question2]
