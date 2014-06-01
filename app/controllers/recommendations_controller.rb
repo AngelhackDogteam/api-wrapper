@@ -4,14 +4,14 @@ class RecommendationsController < ApplicationController
   def filter
     options = params.keep_if {|k, v| %w(question-1 question-2 question-3 question-4 question-5 question-6 question-7).include? k}
 
-    size = options[:question1]
-    agility = options[:question2]
-    train = options[:question3]
-    shed = options[:question4]
-    age = options[:question5]
-    location = options[:question6]
-    sex = options[:question7]
-
+    size = options['question-1']
+    agility = options['question-2']
+    train = options['question-3']
+    shed = options['question-4']
+    age = options['question-5']
+    location = options['question-6']
+    sex = options['question-7']
+    binding.pry
     redirect_to recommendations_path(size: size, agility: agility, train: train, shed: shed,
       age: age, location: location, sex: sex), format: :json
   end 
@@ -89,7 +89,8 @@ class RecommendationsController < ApplicationController
     age = params[:age]  
     location = params[:location]
     sex = params[:sex] #Male/Female/no preference (no request!)
-    tries ||= 10
+    tries ||= 100
+    # binding.pry
     begin
       # binding.pry
       options = {age: age, location: location, sex: sex, breeds: top_5_breeds}.keep_if {|k,v| !v.nil?}
