@@ -60,11 +60,22 @@ class BreedsController < ApplicationController
 
     tries ||= 10
     begin
-      pets = petfinder.find_pets('dog', location)
+      # pets = petfinder.find_pets('dog', location)
+      conn = Faraday.new(:url => 'http://api.petfinder.com') do |faraday|
+        faraday.request  :url_encoded             # form-encode POST params
+        faraday.response :logger                  # log requests to STDOUT
+        faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+      end
+      response = conn.get '/pet.find', {animal: 'dog', location: location, count: 100, 
+        format: 'json', key: 'ba13722a78b94d3d56f9c4e8d26ce68f'}
+      data = JSON.load response.body
+      # binding.pry
+      pets = PetProxy.multiple(data['petfinder'])
       @pets = []
       pets.each do |pet|
         @pets << XmlToPetConverter.convert(pet)
       end
+
       render json: @pets and return
     rescue Excon::Errors::SocketError
       unless (tries -= 1).zero?
