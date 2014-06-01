@@ -26,6 +26,27 @@ class BreedsController < ApplicationController
     end
   end
 
+  def random_pet
+    unless params[:location]
+      render_400 and return
+    end
+    tries ||= 10
+
+    begin
+      options = params.select {|k, v| %w(size breed sex age offset count location).include? k}
+      options.merge!({animal: 'dog'})
+      pet = petfinder.random_pet(options)
+      @pet = XmlToPetConverter.convert(pet)
+      render json: @pet and return
+    rescue Excon::Errors::SocketError
+      unless (tries -= 1).zero?
+        retry 
+      else
+        render_400 and return
+      end
+    end
+  end
+
   def on_load
     unless params[:ip]
       render_400 and return
