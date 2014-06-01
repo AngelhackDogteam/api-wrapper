@@ -99,7 +99,7 @@ class RecommendationsController < ApplicationController
       pets.each do |pet|        
         @pets << XmlToPetConverter.convert(pet)
       end
-      render json: @pets and return
+      render json: {data: @pets} and return
     rescue Excon::Errors::SocketError
       unless (tries -= 1).zero?
         retry 
