@@ -11,9 +11,11 @@ class DogsController < ApplicationController
       @pet = XmlToPetConverter.convert(pet)
       render json: @pet and return
     rescue Excon::Errors::SocketError
-      retry unless (tries -= 1).zero?
-    else
-      render_400 and return
-    end 
+      unless (tries -= 1).zero?
+        retry 
+      else
+        render_400 and return
+      end
+    end
   end
 end

@@ -18,9 +18,11 @@ class BreedsController < ApplicationController
       end
       render json: @pets and return
     rescue Excon::Errors::SocketError
-      retry unless (tries -= 1).zero?
-    else
-      render_400 and return
+      unless (tries -= 1).zero?
+        retry 
+      else
+        render_400 and return
+      end
     end
   end
 

@@ -8,6 +8,9 @@ class ApplicationController < ActionController::Base
   end
 
   def render_400
-    render :nothing => true, :status => 400
+    render json: {
+      error: "No such user; check the submitted email address",
+      status: 400
+    }, status: 400
   end
 end
