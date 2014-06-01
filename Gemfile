@@ -16,6 +16,8 @@ gem 'petfinder'#, github: 'AngelhackDogteam/petfinder'
 gem 'rabl'
 gem 'oj'
 gem 'pry'
+gem 'geokit'
+gem 'geokit-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
