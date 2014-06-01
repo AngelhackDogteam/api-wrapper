@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   def render_400
     render json: {
-      error: "No such user; check the submitted email address",
+      error: "Bad request",
       status: 400
     }, status: 400
   end
