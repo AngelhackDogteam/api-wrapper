@@ -1,6 +1,21 @@
 class RecommendationsController < ApplicationController
   respond_to :json
 
+  def filter
+    options = params.keep_if {|k, v| %w(question1 question2 question3 question4 question5 question6 question7).include? k}
+
+    size = options[:question1]
+    agility = options[:question2]
+    train = options[:question3]
+    shed = options[:question4]
+    age = options[:question5]
+    location = options[:question6]
+    sex = options[:question7]
+
+    redirect_to recommendations_path(size: size, agility: agility, train: train, shed: shed,
+      age: age, location: location, sex: sex), format: :json
+  end 
+
   def index
     unless params[:location]
       render_400 and return
