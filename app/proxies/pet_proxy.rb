@@ -21,6 +21,7 @@ class PetProxy
   end
 
   def self.multiple(json)
+    return [] if json.try(:[], 'pets').try(:[], 'pet').nil?
     json["pets"]["pet"].map do |node|
       PetProxy.new(node)
     end
