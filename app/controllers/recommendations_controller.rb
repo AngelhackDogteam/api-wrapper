@@ -1,6 +1,8 @@
 class RecommendationsController < ApplicationController
   respond_to :json
-
+  before_filter :cors_preflight_check
+  after_filter :cors_set_access_control_headers
+  
   def filter
     options = params.keep_if {|k, v| %w(question-1 question-2 question-3 question-4 question-5 question-6 question-7).include? k}
 
