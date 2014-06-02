@@ -55,8 +55,14 @@ class BreedsController < ApplicationController
     ip = Rails.env.development? ? "38.108.97.34" : fixed_ip
     logger.info "ip: #{ip}"
     geocoded_location = Geokit::Geocoders::IpGeocoder.geocode(ip)
-    location = geocoded_location.zip.present? ? 
-      geocoded_location.zip : "#{geocoded_location.city},#{geocoded_location.state}"
+    
+    location = if geocoded_location.zip.present? 
+      geocoded_location.zip
+    elsif geocoded_location.city != "Unknown City" 
+      "#{geocoded_location.city},#{geocoded_location.state}"
+    else 
+      "10009"
+    end
 
     tries ||= 10
     begin
